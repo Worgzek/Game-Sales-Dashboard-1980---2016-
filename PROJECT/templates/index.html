@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Sales Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="light-mode font-sans">
+
+  <!-- Header -->
+  <div class="header flex justify-between items-center p-4">
+    <h1 class="text-3xl font-extrabold drop-shadow-lg">
+      Game Sales Dashboard
+    </h1>
+      <div class="flex gap-2">
+        <button id="themeToggle"
+          class="px-3 py-2 rounded bg-gray-300 hover:bg-gray-400 text-black">
+          🌙 Dark Mode
+        </button>
+        <button id="downloadCsvBtn"
+          class="px-3 py-2 rounded bg-gray-300 hover:bg-gray-400 text-black">
+          Download CSV
+        </button>
+      </div>
+
+  </div>
+  <hr class="separator-glow">
+
+  <div class="flex">
+    
+    <aside class="filter-container w-1/4 p-4">
+      <div class="space-y-4">
+
+        <!--Smart Search-->
+        <div class="filter-box">
+          <div class="filter-title">🔎Smart Search</div>
+          <input
+            type="text"
+            id="nl-search"
+            placeholder="Ví dụ: So sánh game ở Bắc Mỹ và Nhật..."
+            class="w-full mt-2 px-2 py-1 rounded border border-gray-400 text-black" />
+          <button onclick="runNLSearch()" style="margin-top:8px; width:100%;"
+          class="mt-4 w-full px-2 py-0.4 rounded bg-gray-300 hover:bg-gray-400 text-black">
+            Apply
+          </button>
+        </div>       
+
+        <!-- Search bar -->
+
+        <div class="filter-box">
+
+          <div class="filter-title">Game Search</div>
+          <input id="gameSearch" type="text" placeholder="Enter game name..."
+            class="w-full mt-2 px-2 py-1 rounded border border-gray-400 text-black" />
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Year <span class="arrow">▼</span></div>
+          <div id="yearFilter" class="filter-dropdown"></div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Genre <span class="arrow">▼</span></div>
+          <div id="genreFilter" class="filter-dropdown"></div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Platform <span class="arrow">▼</span></div>
+          <div id="platformFilter" class="filter-dropdown"></div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Publisher <span class="arrow">▼</span></div>
+          <div id="publisherFilter" class="filter-dropdown"></div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Region <span class="arrow">▼</span></div>
+          <div id="regionFilter" class="filter-dropdown"></div>
+        </div>
+      </div>
+
+      <button id="resetBtn"
+        class="mt-4 w-full px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-black">
+        Reset Filters
+      </button>
+    </aside>
+
+    <!-- Dashboard container (trượt ngang) -->
+    <div class="dashboard-container flex-1">
+      <!-- Section 1 -->
+      <section class="dashboard-section">
+        <main class="p-4">
+          <!-- KPI -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="kpi"><span id="totalSales">0</span> Million Sales</div>
+            <div class="kpi"><span id="totalGames">0</span> Games</div>
+          </div>
+
+          <!-- Top Games + Region Sales -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="card p-4">
+              <canvas id="topGamesChart" class="h-64"></canvas>
+              <div id="topGamesNoData" class="no-data hidden">No data available</div>
+            </div>
+            <div class="card p-4">
+              <canvas id="regionChart" class="h-64"></canvas>
+              <div id="regionNoData" class="no-data hidden">No data available</div>
+            </div>
+          </div>
+
+          <!-- Line Chart -->
+          <div class="card p-4 mb-6">
+            <canvas id="yearlySalesChart" class="h-72"></canvas>
+            <div id="yearlyNoData" class="no-data hidden">No data available</div>
+          </div>
+
+          <!-- Donut Chart + placeholder -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Donut Chart -->
+            <div class="card p-4">
+              <canvas id="genreChart" class="h-64"></canvas>
+              <div id="genreNoData" class="no-data hidden">No data available</div>
+            </div>
+            <div class="card p-4">
+              <h2 class="text-lg font-bold mb-2">Top 10 Publisher Sales</h2>
+              <canvas id="publisherChart" style="height:400px; width:100%;"></canvas>
+              <div id="publisherNoData" class="no-data hidden">No data available</div>
+            </div>
+          </div>
+        </main>
+      </section>
+    </div>
+  </div>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>
